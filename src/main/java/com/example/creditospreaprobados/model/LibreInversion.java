@@ -8,7 +8,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.example.creditospreaprobados.model.action.CupoDisponibleInterface;
-import com.example.creditospreaprobados.model.action.MensajeCliente;
+import com.example.creditospreaprobados.model.action.MensajeClienteInterface;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @Table("libre_inversiones")
 @Builder
-public class LibreInversion implements CupoDisponibleInterface, MensajeCliente {
+public class LibreInversion implements CupoDisponibleInterface, MensajeClienteInterface {
 
         @Id
         private Long id;

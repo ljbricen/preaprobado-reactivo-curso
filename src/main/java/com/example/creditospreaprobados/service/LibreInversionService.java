@@ -22,11 +22,19 @@ public class LibreInversionService {
     private final LibreInversionRepository libreInversionRepository;
 
     public Flux<LibreInversion> obtenerLibreInversions() {
-        return libreInversionRepository.findAll();
+        return libreInversionRepository.findAll()
+            .onErrorResume(error -> {
+                logger.error(error.getMessage());
+                return Mono.empty();
+            });
     }
 
     public Mono<LibreInversion> obtenerLibreInversion(Long id) {
         return libreInversionRepository.findById(id)
+            .onErrorResume(error -> {
+                logger.error(error.getMessage());
+                return Mono.error(new NoEncontradoException("LibreInversion no encontrado"));
+            })
             .switchIfEmpty(Mono.error(new NoEncontradoException("LibreInversion no encontrado")));
     }
     

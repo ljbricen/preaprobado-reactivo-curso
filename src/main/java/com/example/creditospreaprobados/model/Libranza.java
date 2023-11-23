@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import com.example.creditospreaprobados.exception.CumpleReglaException;
 import com.example.creditospreaprobados.model.action.CupoDisponibleInterface;
-import com.example.creditospreaprobados.model.action.MensajeCliente;
+import com.example.creditospreaprobados.model.action.MensajeClienteInterface;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Data
 @Table("libranzas")
 @Builder
-public class Libranza implements CupoDisponibleInterface, MensajeCliente {
+public class Libranza implements CupoDisponibleInterface, MensajeClienteInterface {
     @Id
     private Long id;
 

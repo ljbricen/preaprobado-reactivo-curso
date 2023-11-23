@@ -12,12 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CrediagilControllerTest {
+class CrediagilControllerTest {
 
     @Mock
     private CrediagilService crediagilService;
@@ -30,7 +28,7 @@ public class CrediagilControllerTest {
     }
 
     @Test
-    public void testObtenerCrediagiles() throws Exception {
+    void testObtenerCrediagiles() {
         // Arrange
         String cedula = "1234";
         Crediagil crediagil = Crediagil.builder().cedula(cedula).build();
@@ -40,32 +38,38 @@ public class CrediagilControllerTest {
         Flux<Crediagil> crediagilResult = crediagilController.obtenerCrediagiles();
 
         // Assert
-        crediagilResult.subscribe(crediagil1 -> {
-            assert crediagil1.getCedula().equals(cedula);
-        });
+        StepVerifier.create(crediagilResult)
+                        .expectNextMatches(crediagil1 -> {
+                            assert crediagil1.getCedula().equals(cedula);
+                            return true;
+                        })
+                        .verifyComplete();
 
     }
 
     @Test
-    public void testObtenerCrediagilEspecifico() throws Exception {
+    void testObtenerCrediagilEspecifico() {
         // Arrange
         Long id = 59L;
         String cedula = "1234";
         Crediagil crediagil = Crediagil.builder().cedula(cedula).build();
-        when(crediagilService.obtenerCrediagils()).thenReturn(Flux.just(crediagil));
+        when(crediagilService.obtenerCrediagil(id)).thenReturn(Mono.just(crediagil));
 
         // Act
         Mono<Crediagil> crediagilResult = crediagilController.obtenerCrediagilPorId(id);
 
         // Assert
-        crediagilResult.subscribe(crediagil1 -> {
-            assert crediagil1.getCedula().equals(cedula);
-        });
+        StepVerifier.create(crediagilResult)
+                .expectNextMatches(crediagil1 -> {
+                    assert crediagil1.getCedula().equals(cedula);
+                    return true;
+                })
+                .verifyComplete();
 
     }
 
     @Test
-    public void testObtenerCrediagilEspecificoNoEncontrado() throws Exception {
+    void testObtenerCrediagilEspecificoNoEncontrado() {
         // Arrange
         Long id = 59L;
         when(crediagilService.obtenerCrediagil(id)).thenReturn(Mono.error(new NoEncontradoException("Crediagil no encontrado")));

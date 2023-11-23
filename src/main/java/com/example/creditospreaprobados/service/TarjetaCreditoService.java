@@ -21,11 +21,19 @@ public class TarjetaCreditoService {
     private final TarjetaCreditoRepository tarjetaCreditoRepository;
 
     public Flux<TarjetaCredito> obtenerTarjetaCreditos() {
-        return tarjetaCreditoRepository.findAll();
+        return tarjetaCreditoRepository.findAll()
+            .onErrorResume(error -> {
+                logger.error(error.getMessage());
+                return Mono.empty();
+            });
     }
 
     public Mono<TarjetaCredito> obtenerTarjetaCredito(Long id) {
         return tarjetaCreditoRepository.findById(id)
+            .onErrorResume(error -> {
+                logger.error(error.getMessage());
+                return Mono.error(new NoEncontradoException("TarjetaCredito no encontrado"));
+            })
             .switchIfEmpty(Mono.error(new NoEncontradoException("TarjetaCredito no encontrado")));
     }
     

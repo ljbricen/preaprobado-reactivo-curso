@@ -22,11 +22,19 @@ public class CrediagilService {
     private final CrediagilRepository crediagilRepository;
 
     public Flux<Crediagil> obtenerCrediagils() {
-        return crediagilRepository.findAll();
+        return crediagilRepository.findAll()
+            .onErrorResume(error -> {
+                logger.error(error.getMessage());
+                return Mono.empty();
+            });
     }
 
     public Mono<Crediagil> obtenerCrediagil(Long id) {
         return crediagilRepository.findById(id)
+            .onErrorResume(error -> {
+                logger.error(error.getMessage());
+                return Mono.error(new NoEncontradoException("Crediagil no encontrado"));
+            })
             .switchIfEmpty(Mono.error(new NoEncontradoException("Crediagil no encontrado")));
     }
     

@@ -10,6 +10,7 @@ import org.springframework.web.reactive.result.method.annotation.ResponseEntityE
 
 import com.example.creditospreaprobados.exception.CumpleReglaException;
 import com.example.creditospreaprobados.exception.NoEncontradoException;
+import com.example.creditospreaprobados.exception.NoProcesadoException;
 
 @RestControllerAdvice
 public class PreaprobadoControllerAdvice extends ResponseEntityExceptionHandler {
@@ -30,6 +31,11 @@ public class PreaprobadoControllerAdvice extends ResponseEntityExceptionHandler 
     @ExceptionHandler(NoEncontradoException.class)
     public ResponseEntity<String> handleNoEncontradoException(NoEncontradoException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(NoProcesadoException.class)
+    public ResponseEntity<String> handleNoProcesadoException(NoProcesadoException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
     
 }
