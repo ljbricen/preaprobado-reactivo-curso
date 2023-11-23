@@ -1,6 +1,6 @@
 # Contexto de la aplicación
 
-La siguiente aplicación es para listar que preaprobados de créditos hay disponibles con fecha de vencimiento, cupo disponible y a quien está asociado. La estructura cuanta con 4 entidades: Libranza, Crediagil, Libre Inversion y Tarjeta de crédito.
+La siguiente aplicación es para listar que preaprobados de créditos hay disponibles con fecha de vencimiento, cupo disponible y a quien está asociado. La estructura cuenta con 4 entidades: Libranza, Crediagil, Libre Inversion y Tarjeta de crédito.
 
 ## Campos
 Cada entidad tiene campos similares a los siguientes:
